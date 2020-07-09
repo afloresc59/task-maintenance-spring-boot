@@ -1,7 +1,8 @@
 package com.demo.avla.service;
 
 import com.demo.avla.entity.Task;
-import com.demo.avla.request.TaskRequest;
+import com.demo.avla.exception.ServiceException;
+import com.demo.avla.model.request.TaskRequest;
 import com.demo.avla.repository.TaskRepository;
 import com.demo.avla.service.base.TaskBase;
 import com.demo.avla.utils.EmployeeUtils;
@@ -49,6 +50,8 @@ public class TaskService implements TaskBase {
                 task.setUserUpdate(EmployeeUtils.DEFAULT_EMPLOYEE);
                 task.setDateUpdate(new Date());
                 this.taskRepository.save(task);
+            } else {
+                throw new ServiceException("The task searched doesn't exists.");
             }
         } catch (Exception ex) {
             this.logger.error("There was an error in the method update() - TaskService." + ex);
@@ -62,6 +65,10 @@ public class TaskService implements TaskBase {
 
     @Override
     public Task searchTask(Long id) {
+        Optional<Task> optTask = this.taskRepository.findById(id);
+        if(!optTask.isPresent()) {
+            throw new ServiceException("The task searched doesn't exists.");
+        }
         return this.taskRepository.findById(id).get();
     }
 

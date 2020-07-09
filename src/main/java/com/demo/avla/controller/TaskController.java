@@ -1,7 +1,7 @@
 package com.demo.avla.controller;
 
 import com.demo.avla.entity.Task;
-import com.demo.avla.request.TaskRequest;
+import com.demo.avla.model.request.TaskRequest;
 import com.demo.avla.service.TaskService;
 import org.springframework.web.bind.annotation.*;
 

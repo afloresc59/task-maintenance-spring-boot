@@ -1,4 +1,4 @@
-package com.demo.avla.request;
+package com.demo.avla.model.request;
 
 public class TaskRequest {
 

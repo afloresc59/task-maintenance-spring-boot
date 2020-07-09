@@ -1,7 +1,7 @@
 package com.demo.avla.service.base;
 
 import com.demo.avla.entity.Task;
-import com.demo.avla.request.TaskRequest;
+import com.demo.avla.model.request.TaskRequest;
 
 import java.util.List;
 
