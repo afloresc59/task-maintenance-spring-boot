@@ -37,6 +37,7 @@ public class TaskService implements TaskBase {
             this.taskRepository.save(task);
         } catch (Exception ex) {
             this.logger.error("There was an error in the method save() - TaskService." + ex);
+            throw  ex;
         }
 
     }
@@ -58,6 +59,7 @@ public class TaskService implements TaskBase {
             }
         } catch (Exception ex) {
             this.logger.error("There was an error in the method update() - TaskService." + ex);
+            throw  ex;
         }
     }
 
