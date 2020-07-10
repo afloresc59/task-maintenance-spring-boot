@@ -1,7 +1,7 @@
 package com.demo.avla.controller;
 
-import com.demo.avla.entity.Task;
 import com.demo.avla.model.request.TaskRequest;
+import com.demo.avla.model.response.TaskResponse;
 import com.demo.avla.service.TaskService;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,12 +28,12 @@ public class TaskController {
     }
 
     @GetMapping("/search")
-    public List<Task> searchAllTasks() {
+    public List<TaskResponse> searchAllTasks() {
         return this.taskService.searchAllTasks();
     }
 
     @GetMapping("/search/{id}")
-    public Task searchTask(@PathVariable("id") Long id) {
+    public TaskResponse searchTask(@PathVariable("id") Long id) {
         return this.taskService.searchTask(id);
     }
 

@@ -8,11 +8,11 @@ public class TaskRequest {
 
     private String description;
 
-    private String status;
+    private String progress;
 
     private Long idEmployee;
 
-    private String enabled;
+    private String status;
 
     public Long getIdTask() {
         return idTask;
@@ -38,12 +38,12 @@ public class TaskRequest {
         this.description = description;
     }
 
-    public String getStatus() {
-        return status;
+    public String getProgress() {
+        return progress;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setProgress(String progress) {
+        this.progress = progress;
     }
 
     public Long getIdEmployee() {
@@ -54,11 +54,11 @@ public class TaskRequest {
         this.idEmployee = idEmployee;
     }
 
-    public String getEnabled() {
-        return enabled;
+    public String getStatus() {
+        return status;
     }
 
-    public void setEnabled(String enabled) {
-        this.enabled = enabled;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

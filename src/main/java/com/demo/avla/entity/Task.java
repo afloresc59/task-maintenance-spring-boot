@@ -19,12 +19,12 @@ public class Task {
     private String description;
 
     @Column(length = 1, nullable = false)
-    private String status;
+    private String progress;
 
     private Long idEmployee;
 
     @Column(length = 1, nullable = false)
-    private String enabled;
+    private String status;
 
     @Column(length = 10, nullable = false)
     @JsonIgnore
@@ -67,12 +67,12 @@ public class Task {
         this.description = description;
     }
 
-    public String getStatus() {
-        return status;
+    public String getProgress() {
+        return progress;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setProgress(String progress) {
+        this.progress = progress;
     }
 
     public Long getIdEmployee() {
@@ -83,12 +83,12 @@ public class Task {
         this.idEmployee = idEmployee;
     }
 
-    public String getEnabled() {
-        return enabled;
+    public String getStatus() {
+        return status;
     }
 
-    public void setEnabled(String enabled) {
-        this.enabled = enabled;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getUserRegistration() {

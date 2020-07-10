@@ -2,7 +2,9 @@ package com.demo.avla.service;
 
 import com.demo.avla.entity.Task;
 import com.demo.avla.exception.ServiceException;
+import com.demo.avla.mapper.TaskMapper;
 import com.demo.avla.model.request.TaskRequest;
+import com.demo.avla.model.response.TaskResponse;
 import com.demo.avla.repository.TaskRepository;
 import com.demo.avla.service.base.TaskBase;
 import com.demo.avla.utils.EmployeeUtils;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService implements TaskBase {
@@ -59,26 +62,27 @@ public class TaskService implements TaskBase {
     }
 
     @Override
-    public List<Task> searchAllTasks() {
-        return (List<Task>) this.taskRepository.findAll();
+    public List<TaskResponse> searchAllTasks() {
+        List<Task> listTasks = (List<Task>) this.taskRepository.findAll();
+        return listTasks.stream().map(task -> TaskMapper.from(task)).collect(Collectors.toList());
     }
 
     @Override
-    public Task searchTask(Long id) {
+    public TaskResponse searchTask(Long id) {
         Optional<Task> optTask = this.taskRepository.findById(id);
         if(!optTask.isPresent()) {
             throw new ServiceException("The task searched doesn't exists.");
         }
-        return this.taskRepository.findById(id).get();
+        return TaskMapper.from(this.taskRepository.findById(id).get());
     }
 
     private Task buildTask(TaskRequest request) {
         Task task = new Task();
         task.setName(request.getName());
         task.setDescription(request.getDescription());
-        task.setStatus(request.getStatus());
+        task.setProgress(request.getProgress());
         task.setIdEmployee(request.getIdEmployee());
-        task.setEnabled(request.getEnabled());
+        task.setStatus(request.getStatus());
         return task;
     }
 }

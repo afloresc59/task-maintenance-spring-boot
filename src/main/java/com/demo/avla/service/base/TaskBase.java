@@ -1,13 +1,13 @@
 package com.demo.avla.service.base;
 
-import com.demo.avla.entity.Task;
 import com.demo.avla.model.request.TaskRequest;
+import com.demo.avla.model.response.TaskResponse;
 
 import java.util.List;
 
 public interface TaskBase {
     void save(TaskRequest request);
     void update(TaskRequest request);
-    List<Task> searchAllTasks();
-    Task searchTask(Long id);
+    List<TaskResponse> searchAllTasks();
+    TaskResponse searchTask(Long id);
 }
