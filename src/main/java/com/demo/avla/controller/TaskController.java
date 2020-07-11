@@ -37,4 +37,9 @@ public class TaskController {
         return this.taskService.searchTask(id);
     }
 
+    @PutMapping("/delete")
+    public void delete(@RequestBody TaskRequest request) {
+        this.taskService.delete(request);
+    }
+
 }

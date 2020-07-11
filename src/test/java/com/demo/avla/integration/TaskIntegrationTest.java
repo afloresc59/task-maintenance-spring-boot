@@ -117,6 +117,21 @@ public class TaskIntegrationTest {
     }
 
     @Test
+    public void shouldExecuteDeleteTask() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        TaskRequest request = new TaskRequest();
+        request.setIdTask(1L);
+        request.setStatus(StatusType.INACTIVE.getCode());
+
+        this.mockMvc.perform(put("/task/delete")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
     public void shouldThrownExceptionInSaveTaskWhenSomeFieldIsNull() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 

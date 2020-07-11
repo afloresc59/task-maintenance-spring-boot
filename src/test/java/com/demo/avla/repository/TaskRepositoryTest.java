@@ -90,6 +90,28 @@ public class TaskRepositoryTest {
 
     }
 
+    @Test
+    public void shouldDeleteTask() {
+        this.taskRepository.save(buildTask());
+
+        Task task = this.taskRepository.findById(1L).get();
+        task.setStatus(StatusType.INACTIVE.getCode());
+        task.setUserUpdate(DEFAULT_EMPLOYEE);
+        task.setDateUpdate(new Date());
+
+        this.taskRepository.save(task);
+        Task updatedTask = this.taskRepository.findById(1L).get();
+
+        SoftAssertions.assertSoftly(assertions -> {
+            assertions.assertThat(updatedTask.getId()).isEqualTo(task.getId());
+            assertions.assertThat(updatedTask.getName()).isEqualTo("TASK");
+            assertions.assertThat(updatedTask.getDescription()).isEqualTo("SIMPLE TASK DESCRIPTION");
+            assertions.assertThat(updatedTask.getStatus()).isEqualTo(StatusType.INACTIVE.getCode());
+            assertions.assertThat(updatedTask.getUserUpdate()).isNotNull();
+            assertions.assertThat(updatedTask.getDateUpdate()).isNotNull();
+        });
+    }
+
     private Task buildTask() {
         Task task = new Task();
         task.setName("TASK");

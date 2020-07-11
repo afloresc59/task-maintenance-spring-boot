@@ -78,6 +78,25 @@ public class TaskService implements TaskBase {
         return TaskMapper.from(this.taskRepository.findById(id).get());
     }
 
+    @Override
+    public void delete(TaskRequest request) {
+        try {
+            Optional<Task> optOriginalTask = this.taskRepository.findById(request.getIdTask());
+            if(optOriginalTask.isPresent()) {
+                Task task = optOriginalTask.get();
+                task.setStatus(request.getStatus());
+                task.setUserUpdate(EmployeeUtils.DEFAULT_EMPLOYEE);
+                task.setDateUpdate(new Date());
+                this.taskRepository.save(task);
+            } else {
+                throw new ServiceException("The task searched doesn't exists.");
+            }
+        } catch (Exception ex) {
+            this.logger.error("There was an error in the method delete() - TaskService." + ex);
+            throw  ex;
+        }
+    }
+
     private Task buildTask(TaskRequest request) {
         Task task = new Task();
         task.setName(request.getName());
