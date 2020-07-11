@@ -1,6 +1,5 @@
 package com.demo.avla.utils;
 
-import com.demo.avla.exception.ServiceException;
 import com.demo.avla.model.response.EmployeeResponse;
 
 import java.util.Arrays;
@@ -14,6 +13,8 @@ public final class EmployeeUtils {
 
     public static final String DEFAULT_EMPLOYEE = "ADMIN";
 
+    public static final String DEFAULT_MESSAGE_TASK_WITHOUT_EMPLOYEE = "NOT ASSIGNED";
+
     public static List<EmployeeResponse> buildMockEmployees() {
         EmployeeResponse employeeOne = new EmployeeResponse(1L, "ANTHONY OSWALDO", "FLORES CARRASCO");
         EmployeeResponse employeeTwo = new EmployeeResponse(2L, "JOSE", "GARCIA CASTILLO");
@@ -25,9 +26,9 @@ public final class EmployeeUtils {
         EmployeeResponse employeeResponse = buildMockEmployees().stream()
                 .filter(employee -> employee.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new ServiceException("The employee is not registered."));
+                .orElseGet(() -> null);
 
-        return employeeResponse.getNames() + " " + employeeResponse.getSurnames();
+        return employeeResponse == null ? DEFAULT_MESSAGE_TASK_WITHOUT_EMPLOYEE : employeeResponse.getNames() + " " + employeeResponse.getSurnames();
     }
 
 }

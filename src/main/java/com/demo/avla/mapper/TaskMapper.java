@@ -16,8 +16,11 @@ public final class TaskMapper {
         taskResponse.setId(task.getId());
         taskResponse.setName(task.getName());
         taskResponse.setDescription(task.getDescription());
+        taskResponse.setIdEmployee(task.getIdEmployee());
         taskResponse.setEmployee(EmployeeUtils.getFullEmployeeName(task.getIdEmployee()));
+        taskResponse.setProgress(task.getProgress());
         taskResponse.setDescriptionProgress(searchDescriptionProgress(task.getProgress()));
+        taskResponse.setStatus(task.getStatus());
         taskResponse.setDescriptionStatus(searchDescriptionStatus(task.getStatus()));
         return taskResponse;
     }

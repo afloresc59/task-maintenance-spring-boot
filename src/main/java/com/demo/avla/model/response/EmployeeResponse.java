@@ -2,6 +2,10 @@ package com.demo.avla.model.response;
 
 public class EmployeeResponse {
 
+    public EmployeeResponse(){
+
+    }
+
     public EmployeeResponse(Long id, String names, String surnames) {
         this.id = id;
         this.names = names;

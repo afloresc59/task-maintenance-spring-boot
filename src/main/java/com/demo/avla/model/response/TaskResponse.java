@@ -8,11 +8,25 @@ public class TaskResponse {
 
     private String description;
 
+    private String progress;
+
     private String descriptionProgress;
+
+    private Long idEmployee;
 
     private String employee;
 
+    private String status;
+
     private String descriptionStatus;
+
+    public Long getIdEmployee() {
+        return idEmployee;
+    }
+
+    public void setIdEmployee(Long idEmployee) {
+        this.idEmployee = idEmployee;
+    }
 
     public Long getId() {
         return id;
@@ -60,5 +74,21 @@ public class TaskResponse {
 
     public void setDescriptionStatus(String descriptionStatus) {
         this.descriptionStatus = descriptionStatus;
+    }
+
+    public String getProgress() {
+        return progress;
+    }
+
+    public void setProgress(String progress) {
+        this.progress = progress;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
