@@ -1,0 +1,8 @@
+FROM node:12.16.1-alpine AS builder
+COPY ./avla-frontend ./avla-frontend
+WORKDIR ./avla-frontend
+RUN npm i
+RUN $(npm bin)/ng build --prod
+
+FROM nginx:1.15.8-alpine
+COPY --from=builder /avla-frontend/dist/avla-frontend/ /usr/share/nginx/html

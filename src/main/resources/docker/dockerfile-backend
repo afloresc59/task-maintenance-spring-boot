@@ -1,0 +1,9 @@
+FROM centos
+
+RUN yum install -y java-1.8.0-openjdk
+
+VOLUME /tmp
+ARG JAR_FILE=avla-backend.war
+COPY ${JAR_FILE} /war/application.war
+EXPOSE 8081
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/war/application.war"]

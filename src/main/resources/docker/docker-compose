@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  db:
+    container_name: container_mysql
+    image: mysql:8.0.20
+    restart: always
+    volumes:
+      - ./docker/data_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: 'avla'
+  app:
+    container_name: container_avla_backend
+    image: avla-backend:latest
+    depends_on:
+      - db
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://db:3306/avla?serverTimezone=UTC&createDatabaseIfNotExist=true'
+      SERVER_PORT: 8081
+  app-front:
+    container_name: container_avla_frontend
+    image: avla-frontend:latest
+    restart: always
+    ports:
+      - 4200:80
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
