@@ -11,4 +11,5 @@ public interface TaskBase {
     void delete(TaskRequest request);
     List<TaskResponse> searchAllTasks();
     TaskResponse searchTask(Long id);
+    void assignEmployee(Long idTask, Long idEmployee);
 }

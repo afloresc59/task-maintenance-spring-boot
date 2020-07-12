@@ -132,6 +132,12 @@ public class TaskIntegrationTest {
     }
 
     @Test
+    public void shouldExecuteAssignTask() throws Exception {
+        this.mockMvc.perform(put("/task/assign/{idTask}/employee/{idEmployee}", 1L, 2L))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void shouldThrownExceptionInSaveTaskWhenSomeFieldIsNull() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
 

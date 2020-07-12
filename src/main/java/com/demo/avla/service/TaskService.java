@@ -49,6 +49,7 @@ public class TaskService implements TaskBase {
             if(optOriginalTask.isPresent()) {
                 Task task = buildTask(request);
                 task.setId(optOriginalTask.get().getId());
+                task.setIdEmployee(optOriginalTask.get().getIdEmployee());
                 task.setUserRegistration(optOriginalTask.get().getUserRegistration());
                 task.setDateRegistration(optOriginalTask.get().getDateRegistration());
                 task.setUserUpdate(EmployeeUtils.DEFAULT_EMPLOYEE);
@@ -93,6 +94,25 @@ public class TaskService implements TaskBase {
             }
         } catch (Exception ex) {
             this.logger.error("There was an error in the method delete() - TaskService." + ex);
+            throw  ex;
+        }
+    }
+
+    @Override
+    public void assignEmployee(Long idTask, Long idEmployee) {
+        try {
+            Optional<Task> optOriginalTask = this.taskRepository.findById(idTask);
+            if(optOriginalTask.isPresent()) {
+                Task task = optOriginalTask.get();
+                task.setIdEmployee(idEmployee);
+                task.setUserUpdate(EmployeeUtils.DEFAULT_EMPLOYEE);
+                task.setDateUpdate(new Date());
+                this.taskRepository.save(task);
+            } else {
+                throw new ServiceException("The task searched doesn't exists.");
+            }
+        } catch (Exception ex) {
+            this.logger.error("There was an error in the method assignEmployee() - TaskService." + ex);
             throw  ex;
         }
     }

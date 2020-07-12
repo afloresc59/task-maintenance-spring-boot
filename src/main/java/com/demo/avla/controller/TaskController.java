@@ -42,4 +42,9 @@ public class TaskController {
         this.taskService.delete(request);
     }
 
+    @PutMapping("/assign/{idTask}/employee/{idEmployee}")
+    public void assignEmployee(@PathVariable("idTask") Long idTask, @PathVariable("idEmployee") Long idEmployee) {
+        this.taskService.assignEmployee(idTask, idEmployee);
+    }
+
 }

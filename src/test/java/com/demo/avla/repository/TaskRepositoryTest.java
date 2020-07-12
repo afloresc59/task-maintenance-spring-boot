@@ -25,7 +25,7 @@ public class TaskRepositoryTest {
     @Autowired
     private TaskRepository taskRepository;
 
-    private static final String DEFAULT_EMPLOYEE = "ADMIN";
+    private static final String DEFAULT_USER = "ADMIN";
 
     @Test
     public void shouldSaveTask() {
@@ -39,7 +39,7 @@ public class TaskRepositoryTest {
         Task task = this.taskRepository.findById(1L).get();
         task.setName("TASK TWO");
         task.setDescription("NEW TASK DESCRIPTION");
-        task.setUserUpdate(DEFAULT_EMPLOYEE);
+        task.setUserUpdate(DEFAULT_USER);
         task.setDateUpdate(new Date());
 
         this.taskRepository.save(task);
@@ -96,7 +96,7 @@ public class TaskRepositoryTest {
 
         Task task = this.taskRepository.findById(1L).get();
         task.setStatus(StatusType.INACTIVE.getCode());
-        task.setUserUpdate(DEFAULT_EMPLOYEE);
+        task.setUserUpdate(DEFAULT_USER);
         task.setDateUpdate(new Date());
 
         this.taskRepository.save(task);
@@ -112,15 +112,35 @@ public class TaskRepositoryTest {
         });
     }
 
+    @Test
+    public void shouldAssignEmployee() {
+        this.taskRepository.save(buildTask());
+
+        Task task = this.taskRepository.findById(1L).get();
+        task.setIdEmployee(1L);
+        task.setUserUpdate(DEFAULT_USER);
+        task.setDateUpdate(new Date());
+
+        this.taskRepository.save(task);
+        Task updatedTask = this.taskRepository.findById(1L).get();
+
+        SoftAssertions.assertSoftly(assertions -> {
+            assertions.assertThat(updatedTask.getId()).isEqualTo(task.getId());
+            assertions.assertThat(updatedTask.getIdEmployee()).isNotNull();
+            assertions.assertThat(updatedTask.getIdEmployee()).isEqualTo(1L);
+            assertions.assertThat(updatedTask.getUserUpdate()).isNotNull();
+            assertions.assertThat(updatedTask.getDateUpdate()).isNotNull();
+        });
+    }
+
     private Task buildTask() {
         Task task = new Task();
         task.setName("TASK");
         task.setDescription("SIMPLE TASK DESCRIPTION");
         task.setStatus(StatusType.ACTIVE.getCode());
-        task.setIdEmployee(10L);
         task.setProgress(ProgressType.PENDING.getCode());
         task.setDateRegistration(new Date());
-        task.setUserRegistration(DEFAULT_EMPLOYEE);
+        task.setUserRegistration(DEFAULT_USER);
         return task;
     }
 
