@@ -32,6 +32,11 @@ public class TaskController {
         return this.taskService.searchAllTasks();
     }
 
+    @PostMapping("/customSearch")
+    public List<TaskResponse> customSearchTasks(@RequestBody TaskRequest taskRequest) {
+        return this.taskService.customSearchTask(taskRequest);
+    }
+
     @GetMapping("/search/{id}")
     public TaskResponse searchTask(@PathVariable("id") Long id) {
         return this.taskService.searchTask(id);

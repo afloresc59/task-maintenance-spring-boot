@@ -99,6 +99,35 @@ public class TaskIntegrationTest {
     }
 
     @Test
+    public void shouldExecuteCustomSearchTasks() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        TaskRequest taskRequest = new TaskRequest();
+        taskRequest.setName("TASK");
+        taskRequest.setIdEmployee(null);
+
+        MvcResult result = this.mockMvc.perform(post("/task/customSearch")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(taskRequest)))
+                .andExpect(status().isOk()).andReturn();
+        String response = result.getResponse().getContentAsString();
+
+
+        List<TaskResponse> listTasks = objectMapper.readValue(response, new TypeReference<List<TaskResponse>>(){});
+
+        SoftAssertions.assertSoftly(assertions -> {
+            assertions.assertThat(listTasks).isNotNull();
+            assertions.assertThat(listTasks).isNotEmpty();
+            assertions.assertThat(listTasks.size()).isEqualTo(2);
+            assertions.assertThat(listTasks.get(0)).isNotNull();
+            assertions.assertThat(listTasks.get(0).getId()).isEqualTo(1);
+            assertions.assertThat(listTasks.get(0).getName()).isEqualTo("TASK ONE");
+            assertions.assertThat(listTasks.get(1)).isNotNull();
+            assertions.assertThat(listTasks.get(1).getId()).isEqualTo(2);
+            assertions.assertThat(listTasks.get(1).getName()).isEqualTo("TASK TWO");
+        });
+    }
+
+    @Test
     public void shouldExecuteSearchTask() throws Exception {
         MvcResult result = this.mockMvc.perform(get("/task/search/1")).andExpect(status().isOk()).andReturn();
         String response = result.getResponse().getContentAsString();

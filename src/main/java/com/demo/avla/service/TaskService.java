@@ -81,6 +81,12 @@ public class TaskService implements TaskBase {
     }
 
     @Override
+    public List<TaskResponse> customSearchTask(TaskRequest taskRequest) {
+        List<Task> listTasks = this.taskRepository.findTasksByNameOrEmployee(taskRequest.getName(), taskRequest.getIdEmployee());
+        return listTasks.stream().map(task -> TaskMapper.from(task)).collect(Collectors.toList());
+    }
+
+    @Override
     public void delete(TaskRequest request) {
         try {
             Optional<Task> optOriginalTask = this.taskRepository.findById(request.getIdTask());

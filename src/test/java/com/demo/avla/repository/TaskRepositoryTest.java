@@ -92,6 +92,37 @@ public class TaskRepositoryTest {
     }
 
     @Test
+    public void shouldFindTasksByNameOrEmployee() {
+        Task taskOne = buildTask();
+        taskOne.setIdEmployee(1L);
+        taskOne.setName("TASK ONE");
+
+        Task taskTwo = buildTask();
+        taskTwo.setIdEmployee(2L);
+        taskOne.setName("TASK TWO");
+
+        this.taskRepository.save(taskOne);
+        this.taskRepository.save(taskTwo);
+
+        List<Task> firstResult = this.taskRepository.findTasksByNameOrEmployee("TASK", null);
+        List<Task> secondResult = this.taskRepository.findTasksByNameOrEmployee(null, 1L);
+        List<Task> thirdResult = this.taskRepository.findTasksByNameOrEmployee(null, null);
+
+        SoftAssertions.assertSoftly(assertions -> {
+            assertions.assertThat(firstResult).isNotNull();
+            assertions.assertThat(firstResult).isNotEmpty();
+            assertions.assertThat(firstResult.size()).isEqualTo(2);
+            assertions.assertThat(secondResult).isNotNull();
+            assertions.assertThat(secondResult).isNotEmpty();
+            assertions.assertThat(secondResult.size()).isEqualTo(1);
+            assertions.assertThat(thirdResult).isNotNull();
+            assertions.assertThat(thirdResult).isNotEmpty();
+            assertions.assertThat(thirdResult.size()).isEqualTo(2);
+        });
+
+    }
+
+    @Test
     public void shouldDeleteTask() {
         this.taskRepository.save(buildTask());
 

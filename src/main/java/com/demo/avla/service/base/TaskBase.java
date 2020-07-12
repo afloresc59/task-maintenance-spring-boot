@@ -13,4 +13,5 @@ public interface TaskBase {
     TaskResponse searchTask(Long id);
     void assignEmployee(Long idTask, Long idEmployee);
     void completeTaskBatch(List<TaskRequest> tasks);
+    List<TaskResponse> customSearchTask(TaskRequest taskRequest);
 }
