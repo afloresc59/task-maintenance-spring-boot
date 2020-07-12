@@ -7,6 +7,7 @@ import com.demo.avla.model.request.TaskRequest;
 import com.demo.avla.model.response.TaskResponse;
 import com.demo.avla.repository.TaskRepository;
 import com.demo.avla.service.base.TaskBase;
+import com.demo.avla.type.ProgressType;
 import com.demo.avla.utils.EmployeeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -115,6 +116,16 @@ public class TaskService implements TaskBase {
             this.logger.error("There was an error in the method assignEmployee() - TaskService." + ex);
             throw  ex;
         }
+    }
+
+    @Override
+    public void completeTaskBatch(List<TaskRequest> tasksRequest) {
+        List<Task> finalTasks = tasksRequest.stream().map(taskRequest -> {
+            Task task = this.taskRepository.findById(taskRequest.getIdTask()).get();
+            task.setProgress(ProgressType.FINISHED.getCode());
+            return task;
+        }).collect(Collectors.toList());
+        this.taskRepository.saveAll(finalTasks);
     }
 
     private Task buildTask(TaskRequest request) {

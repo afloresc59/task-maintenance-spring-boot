@@ -47,4 +47,9 @@ public class TaskController {
         this.taskService.assignEmployee(idTask, idEmployee);
     }
 
+    @PutMapping("/complete")
+    public void completeTaskBatch(@RequestBody List<TaskRequest> tasksRequest) {
+        this.taskService.completeTaskBatch(tasksRequest);
+    }
+
 }

@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -131,6 +132,33 @@ public class TaskRepositoryTest {
             assertions.assertThat(updatedTask.getUserUpdate()).isNotNull();
             assertions.assertThat(updatedTask.getDateUpdate()).isNotNull();
         });
+    }
+
+    @Test
+    public void shouldCompleteTaskBatch() {
+        this.taskRepository.save(buildTask());
+        this.taskRepository.save(buildTask());
+
+        Task taskOne = this.taskRepository.findById(1L).get();
+        taskOne.setProgress(ProgressType.FINISHED.getCode());
+
+        Task taskTwo = this.taskRepository.findById(2L).get();
+        taskTwo.setProgress(ProgressType.FINISHED.getCode());
+
+        List<Task> listTasks = Arrays.asList(taskOne, taskTwo);
+
+        this.taskRepository.saveAll(listTasks);
+
+        Task updatedTaskOne = this.taskRepository.findById(1L).get();
+        Task updatedTaskTwo = this.taskRepository.findById(2L).get();
+
+        SoftAssertions.assertSoftly(assertions -> {
+            assertions.assertThat(updatedTaskOne).isNotNull();
+            assertions.assertThat(updatedTaskOne.getProgress()).isEqualTo(ProgressType.FINISHED.getCode());
+            assertions.assertThat(updatedTaskTwo).isNotNull();
+            assertions.assertThat(updatedTaskTwo.getProgress()).isEqualTo(ProgressType.FINISHED.getCode());
+        });
+
     }
 
     private Task buildTask() {

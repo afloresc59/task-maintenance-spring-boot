@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -134,6 +135,24 @@ public class TaskIntegrationTest {
     @Test
     public void shouldExecuteAssignTask() throws Exception {
         this.mockMvc.perform(put("/task/assign/{idTask}/employee/{idEmployee}", 1L, 2L))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldExecuteCompleteTaskBatch() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        TaskRequest taskRequestOne = new TaskRequest();
+        taskRequestOne.setIdTask(1L);
+        taskRequestOne.setProgress(ProgressType.FINISHED.getCode());
+        TaskRequest taskRequestTwo = new TaskRequest();
+        taskRequestTwo.setIdTask(2L);
+        taskRequestTwo.setProgress(ProgressType.FINISHED.getCode());
+        List<TaskRequest> listTasksRequest = Arrays.asList(taskRequestOne, taskRequestTwo);
+
+        this.mockMvc.perform(put("/task/complete")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(listTasksRequest)))
                 .andExpect(status().isOk());
     }
 
